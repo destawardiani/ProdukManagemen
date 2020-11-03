@@ -4,6 +4,7 @@ import Card from './Card'
 import CardSection from './CardSection'
 import Input from './Input'
 import Spinner from './Spinner'
+import InputPicker from './InputPicker'
 
 export {
     Header,
@@ -12,4 +13,5 @@ export {
     CardSection,
     Input,
     Spinner,
+    InputPicker,
 }

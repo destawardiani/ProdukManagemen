@@ -10,7 +10,17 @@ class ProductList extends Component {
      }
 
      componentDidMount() {
-        axios
+          this._unsubscribe = this.props.navigation.addListener('focus', () => this.loadProduct())
+          this.loadProduct()
+     }
+
+     componentWillUnmount() {
+       this._unsubscribe()
+     }
+
+     loadProduct() {
+          this.setState({products: []})
+          axios
             .get('https://simple-ecommerce-9999.herokuapp.com/api/v1/product')
             .then(({ data, status }) => {
                 console.log('CODE: ' + data.code);

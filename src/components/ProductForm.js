@@ -19,7 +19,7 @@ class ProductForm extends Component {
                 .then(({ data, status }) => {
                     console.log('DATA: ' + data.data);
                     this.setState({ categoryList: data.data })
-                    this.props.dispatch({ type: 'SET_CATEGORY_LIST', payload: data.data })
+                    this.props.setCategory(data.data)
             })
         }
     }
@@ -33,19 +33,39 @@ class ProductForm extends Component {
         return (
             <>
                 <CardSection>
-                    <Input label="Name" placeholder="Product name" />
+                    <Input 
+                        value={ this.props.form.name }
+                        onChangeText={ (val) => this.props.setForm('name', val)}
+                        label="Name" 
+                        laceholder="Product name" />
                 </CardSection>
                 <CardSection>
-                    <Input label="Price" placeholder="Product Price" />
+                    <Input 
+                        value={ this.props.form.price }
+                        onChangeText={ (val)=> this.props.setForm('price', val)}
+                        label="Price"
+                        placeholder="Product Price" />
                 </CardSection>
                 <CardSection>
-                    <Input label="Image" placeholder="https://....." />
+                    <Input 
+                        value={ this.props.form.image }
+                        onChangeText={ (val) => this.props.setForm('image', val)}
+                        label="Image"
+                        placeholder="https://....." />
                 </CardSection>
                 <CardSection>
-                    <Input label="Action Link" placeholder="https://....." />
+                    <Input 
+                    value={ this.props.form.actionLink }
+                    onChangeText={ (val)=> this.props.setForm('actionLink', val)}
+                    label="Action Link" 
+                    placeholder="https://....." />
                 </CardSection>
                 <CardSection>
-                    <InputPicker label="Category" data={} />
+                    <InputPicker 
+                    selectedValue={ this.props.form.id_category }
+                    onValueChange={ (val) => this.props.setForm('id_category', val)}
+                    label="Categoy" 
+                    data={ pickerData } />
                 </CardSection>
             </>
         );
@@ -56,7 +76,16 @@ const mapStateToProps = (state)  => {
     return {
         hasCategory: state.categoryList.hasCategory,
         categoryList: state.categoryList.categoryList,
+        form: state.ProductForm,
     }
 }
 
-export default connect(mapStateToProps)(ProductForm);
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setCategory: (category) => dispatch({ type: 'SET_CATEGORY_LIST', payload: category }),
+        setForm: (key, value) => dispatch({ type: 'SET_PRODUCT_FIELD', payload: [key, value] }),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductForm);
